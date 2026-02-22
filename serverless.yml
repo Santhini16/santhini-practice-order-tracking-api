@@ -1,0 +1,38 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: mukilan
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: siddha
+
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  memorySize: 1024
+  timeout: 12
+  iam: 
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "*"
+  environment:
+    SECRET: 'quantumsharq'
+    JWT_EXPIRE: '24h'
+    JWT_REFRESHTOKEN_EXPIRE: '30d'
+    RAZORPAY_KEY_ID: "rzp_test_znHlVHvBw9OF9k"
+    RAZORPAY_KEY_SECRET: "CE9X1eM7dCB7TxrpB4E3sbdn"
+    
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+
+plugins:
+  - serverless-offline  # Add the plugin here
+
+custom:
+  serverless-offline:
+    port: 4000
